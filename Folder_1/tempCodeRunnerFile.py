@@ -1,4 +1,3 @@
-import tensorflow as tf
-print("TensorFlow version:", tf.__version__)
-devices = tf.config.list_physical_devices()
-print("\nDevices: ", devices)
+frame = imutils.resize(frame,width=320)
+    message = struct.pack("Q",len(a))+a
+    c
