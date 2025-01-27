@@ -71,13 +71,14 @@ def main():
     while True:
         ignore,  frame = cam.read()
         frame=cv2.flip(frame,1)
-        frame=myDetector.findHands(frame,False)
+        frame=myDetector.findHands(frame,True)
         lmList=myDetector.findPosition(frame,0,False)
         if len(lmList)!=0:
             print(lmList[4])
             id,x,y=lmList[4]
             print(x,' ',y,' ',id)
             cv2.circle(frame,(x,y),20,(255,255,0),2)
+            
         cTime=time.time()
         fps=1/(cTime-pTime)
         Filtfps=filter*.95 +fps*.05
