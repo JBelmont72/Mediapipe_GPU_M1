@@ -8,6 +8,14 @@ make sure to pass those to self.pose
 
 static_mode_mode  if False, the detection is used once and then just use tracking until the conficence level is too low,  if this hppens then it goes back to capture again
 https://github.com/google-ai-edge/mediapipe/blob/master/docs/solutions/pose.md
+
+pose is the OBJECT!, pose=mpPose() is where it is instantiated!! 
+
+and mpPose is where the object is inserted into the solutions method
+.venv/lib/python3.11/site-packages/mediapipe/python/solutions/pose.py
+this is where the Pose class is located
+
+pose = mpPose(mp.solutions.pose).Pose(parameters)
 '''
 import cv2
 import mediapipe as mp ## uses bgr

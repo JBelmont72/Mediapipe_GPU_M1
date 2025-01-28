@@ -75,19 +75,39 @@ If set to true, the solution filters segmentation masks across different input i
 # cap = cv2.VideoCapture('video_path')
 
 ## solutions.pose.Pose()
+'''
+self,
+               static_image_mode=False,
+               model_complexity=1,
+               smooth_landmarks=True,
+               enable_segmentation=False,
+               smooth_segmentation=True,
+               min_detection_confidence=0.5,
+               min_tracking_confidence=0.5):
 
-import matplotlib.pyplot as plt
-import matplotlib.image as pimg  
+'''
 import cv2
-import mediapipe as mp ## uses bgr
+# import mediapipe as mp ## uses bgr
 import time
+import mediapipe as mp
 class mpPose():
-    def __init__(self,static_image=False ,min_detection_confidence=0.7,smooth_landmarks=True,enable_segmentation=False,smooth_segmentation=True,
-min_tracking_confidence=0.7,
-    model_complexity=2,):
+    def __init__(self,static_image_mode=False ,model_complexity=1,min_detection_confidence=0.5,
+               min_tracking_confidence=0.5):  
+        self.static_image_mode=static_image_mode 
+        self.model_complexity=model_complexity
+        self.min_detection_confidence=min_detection_confidence
+        self.min_tracking_confidence=min_tracking_confidence
         self.mpDraw = mp.solutions.drawing_utils
         self.mpPose = mp.solutions.pose
-        self.pose = self.mpPose.Pose()
+        self.pose=self.mpPose.Pose(self.static_image_mode,self.model_complexity,self.min_detection_confidence)
+        # self.pose = self.mpPose.Pose(self.mode,
+        #     self.static_image, 
+        #     self.min_detection_confidence,
+        #     self.smooth_landmarks,
+        #     self.enable_segmentation,
+            
+        #     self.min_tracking_confidence,
+        #     self.model_complexity)
     def poseDetector(self,img,draw=False,flag=False):
         imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         results = self.pose.process(imgRGB)

@@ -109,7 +109,7 @@ class mpHands:
  
 width=1280
 height=720
-cam=cv2.VideoCapture(0)
+cam=cv2.VideoCapture(1)
 cam.set(cv2.CAP_PROP_FRAME_WIDTH, width)
 cam.set(cv2.CAP_PROP_FRAME_HEIGHT,height)
 cam.set(cv2.CAP_PROP_FPS, 30)
