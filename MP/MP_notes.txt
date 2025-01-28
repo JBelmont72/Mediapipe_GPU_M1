@@ -11,3 +11,26 @@ def __init__(self,static_image_mode=False, model_complexity=1, smooth_landmarks=
                 smooth_segmentation=True, min_detection_confidence=0.5, min_tracking_confidence=0.5):
 make sure to pass those to self.pose
 
+
+THis link is to a site that has a very good pose estimation for a single image, and uses matplotlib to display
+https://medium.com/@codetrade/implementation-of-human-pose-estimation-using-mediapipe-23a57968356b
+detailed tutorial on the subject of pose estiamtion:
+https://medium.com/@gitau_am/human-pose-estimation-overview-ab458d6d7bf2
+
+IMPORTANT AND COOL  using pose estimation and cacuating angles 
+https://medium.com/@gitau_am/using-human-pose-estimation-model-to-calculate-joint-flexion-angles-c8a3f6965fff
+
+stream video with open cv and FLASK  https://medium.com/@gitau_am/implementing-video-streaming-from-oak-d-lite-camera-with-opencv-and-flask-25038f73bd55
+
+
+https://github.com/Antony-gitau/playing_with_oakdlite_camera/tree/main
+
+https://github.com/Antony-gitau/awesome-production-machine-learning?tab=readme-ov-file#explaining-black-box-models-and-datasets
+Awesome Production Machine Learning
+
+This repository contains a curated list of awesome open source libraries that will help you deploy, monitor, version, scale and secure your production machine learning 🚀
+
+Quick links to sections in this page
+
+https://github.com/OpenMined/PySyft?tab=readme-ov-file
+lambda functions  https://medium.com/@gitau_am/python-lambda-function-in-brief-with-examples-6f916ad712e0
