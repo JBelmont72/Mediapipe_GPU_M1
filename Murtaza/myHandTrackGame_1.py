@@ -1,6 +1,10 @@
 '''
 import hand tracking module from 'Murtaza/handTrackModule.py'
+myDetector=htm.mpHands()
 
+findPosition(self,frame,handNo=0,draw= True)
+
+labelHands(self,frame,myHands,handsType,draw=True)
 '''
 import mediapipe as mp
 import sys
@@ -12,8 +16,12 @@ print(np.__version__)
 import time
 ## note different ways to call the handDetector module__ if just 'as htm' then need to modify the object creation below
 # from handTrackModule import *
-import handTrackModule as htm
-from handTrackModule import handDetector
+# import handTrackModule as htm
+# from handTrackModule import handDetector
+## replaced with
+import HandModule as  htm
+
+
 cam = cv2.VideoCapture(1)
 width= 1280  #640
 height= 720  #360
@@ -24,14 +32,15 @@ cam.set(cv2.CAP_PROP_FRAME_WIDTH, width)
 cam.set(cv2.CAP_PROP_FRAME_HEIGHT,height)
 cam.set(cv2.CAP_PROP_FPS, 30)
 cam.set(cv2.CAP_PROP_FOURCC,cv2.VideoWriter_fourcc(*'MJPG'))
-myDetector=htm.handDetector()
+myDetector=htm.mpHands()
 # myDetector=handDetector()
 while True:
     # print(htm.__name__)
     ignore,  frame = cam.read()
     frame=cv2.flip(frame,1)
-    frame=myDetector.findHands(frame,False)
+    frame,myHands,handsType=myDetector.Marks(frame,False)
     lmList=myDetector.findPosition(frame,0,False) ## or 'draw=False 'if leave out the second arguement
+    myDetector.labelHands(frame,myHands,handsType,draw=True)
     if len(lmList)!=0:
         
         print(lmList[4])

@@ -140,7 +140,8 @@ class mpPose():
                 cv2.circle(img, (cx, cy), 5, (255, 0, 255), cv2.FILLED)
         return poseIndex, poseLandmarks
 def main():
-    cap = cv2.VideoCapture('Images/PoseVid_1.mov')
+    # cap = cv2.VideoCapture('Images/PoseVid_1.mov')
+    cap = cv2.VideoCapture('Images/MiriamTap.mov')
     pTime = 0
     myPose=mpPose()
     while True:

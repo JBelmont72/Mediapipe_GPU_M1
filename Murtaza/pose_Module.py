@@ -68,7 +68,8 @@ class poseDetector():
                         cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
         return angle
 def main():
-    cap = cv2.VideoCapture('Images/PoseVid_1.mov')
+    cap = cv2.VideoCapture('Images/MiriamTap.mov')
+    # cap = cv2.VideoCapture('Images/PoseVid_1.mov')
     pTime = 0
     detector = poseDetector()
     while True:
@@ -87,6 +88,7 @@ def main():
         cTime = time.time()
         fps = 1 / (cTime - pTime)
         pTime = cTime
+        cv2.putText(img,f'Elbow angle = {str(abs(int(angle-360)))}',(200,50),cv2.FONT_HERSHEY_SIMPLEX,2,(255,0,255),3 )
         cv2.putText(img, str(int(fps)), (70, 50), cv2.FONT_HERSHEY_PLAIN, 3,
                     (255, 0, 0), 3)
         cv2.imshow("Image", img)

@@ -130,6 +130,7 @@ while True:
     handsLM,handsType=findHands.Marks(frame)
     faceLoc=findFace.Marks(frame)
     poseLM=findPose.Marks(frame)
+    print(handsType)
     # print(findPose.__dict__)
     if poseLM != []:
         for ind in [13,14,15,16]:

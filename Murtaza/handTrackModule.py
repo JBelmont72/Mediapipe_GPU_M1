@@ -1,4 +1,5 @@
-'''
+'''NOTE I replces this with HandModule.py inMurtaza folder because I could not get this to identify individual hands
+Note Save maybe for future reference as lessons proceed.
 follow Murtaza's class structure 
 Pass true to draw connections and circles
 works fine but for one hand
@@ -93,10 +94,12 @@ def main():
     cam.release()
 if __name__=='__main__':
     main()   
-    '''
+'''
 hands=mp.solutions.hands.Hands(static_image_mode=False, max_num_hands=2, min_detection_confidence=0.5, 
     min_tracking_confidence=0.5)
     the hands after mp.solutions references very specific methods.
      THe .Hands is another method inside of mp.slolutons.hands.
 '''
 # mpDraw = mp.solutions.drawing_utils     # this is to annotate the frame with the data, if want to analyze the frame TO DRAW HANDS  use the mp.solutions.hands.Hands(   , , )
+
+ 
