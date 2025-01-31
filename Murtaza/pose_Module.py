@@ -44,10 +44,10 @@ class poseDetector():
         return self.lmList
     def findAngle(self, img, p1, p2, p3, draw=True):
         # Get the landmarks
-        print('p1',p1)
         x1, y1 = self.lmList[p1][1:]
         x2, y2 = self.lmList[p2][1:]
         x3, y3 = self.lmList[p3][1:]
+        
         # Calculate the Angle
         angle = math.degrees(math.atan2(y3 - y2, x3 - x2) -
                              math.atan2(y1 - y2, x1 - x2))
@@ -94,4 +94,8 @@ def main():
         cv2.imshow("Image", img)
         cv2.waitKey(1)
 if __name__ == "__main__":
+    print(''' Instructions:
+          self.lmList.append([id, cx, cy]) 
+          ''')
     main()
+    
