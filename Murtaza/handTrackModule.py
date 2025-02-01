@@ -1,9 +1,12 @@
-'''NOTE I replces this with HandModule.py inMurtaza folder because I could not get this to identify individual hands
+'''NOTE I replaced this with HandModule.py in Murtaza folder because I could not get this to identify individual hands
 Note Save maybe for future reference as lessons proceed.
 follow Murtaza's class structure 
 Pass true to draw connections and circles
 works fine but for one hand
 '''
+# import tensorflow as tf
+# print(tf.config.list_physical_devices('GPU'))
+
 import mediapipe as mp
 import sys
 import cv2
@@ -12,6 +15,8 @@ import numpy as np
 print(f"This is version {sys.version}")
 print(np.__version__)
 import time
+# import tensorflow as tf
+# tf.config.experimental.set_memory_growth(tf.config.list_physical_devices('GPU')[0], True)
 
 class handDetector():
     import mediapipe as mp
@@ -75,9 +80,9 @@ def main():
         frame=myDetector.findHands(frame,True)
         lmList=myDetector.findPosition(frame,0,False)
         if len(lmList)!=0:
-            print(lmList[4])
+            # print(lmList[4])
             id,x,y=lmList[4]
-            print(x,' ',y,' ',id)
+            # print(x,' ',y,' ',id)
             cv2.circle(frame,(x,y),20,(255,255,0),2)
             
         cTime=time.time()

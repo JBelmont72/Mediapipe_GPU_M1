@@ -1,3 +1,12 @@
+
+maybe this is complete for running the gpu with mediapipe
+
+pip install mediapipe-silicon
+https://github.com/cansik/mediapipe-silicon?tab=readme-ov-file
+https://github.com/google-ai-edge/mediapipe/issues/5426
+https://github.com/google-ai-edge/mediapipe/issues/5789
+
+
 There are some arguments that we need to add in new version of python and mediapipe, i think :
 1. In hand tracking (static image, max number of hands, model complexity, min detection confidence, min tracking confidence)
 2. In pose estimation (static image , model_complexity, upper_body_only, smooth_landmarks, detection confidence, tracking confidence)
@@ -40,3 +49,81 @@ lambda functions  https://medium.com/@gitau_am/python-lambda-function-in-brief-w
 
 this is a useful colab on mpPose
 https://colab.research.google.com/drive/1uCuA6We9T5r0WljspEHWPHXCT_2bMKUy
+
+mediapipe-silicone   for Apple m1
+
+
+There are some arguments that we need to add in new version of python and mediapipe, i think :
+1. In hand tracking (static image, max number of hands, model complexity, min detection confidence, min tracking confidence)
+2. In pose estimation (static image , model_complexity, upper_body_only, smooth_landmarks, detection confidence, tracking confidence)
+3. In face mesh (static image, max. no. of faces, redefine landmarks, min. detection confidence, min. tracking confidence)
+4.  To draw the landmarks in face mesh : mpDraw.draw_landmarks(img, faceLms, mpFaceMesh.FACEMESH_CONTOURS, drawSpec, drawSpec)
+
+⭐ Course Contents ⭐
+⌨ (0:00:00) Intro 
+⌨ (0:01:18) Chapter 1 - Hand Tracking - Basics 
+⌨ (0:26:57) Chapter 1 - Hand Tracking - Module
+⌨ (0:49:20) Chapter 2 - Pose Estimation - Basics
+⌨ (1:08:25) Chapter 2 - Pose Estimation - Module
+⌨ (1:28:25) Chapter 3 - Face Detection - Basics
+⌨ (1:52:38) Chapter 3 - Face Detection - Module
+⌨ (2:12:55) Chapter 4 - Face Mesh - Basics
+⌨ (2:33:09) Chapter 4 - Face Mesh - Module
+⌨ (2:52:10) Project 1 - Gesture Volume Control
+⌨ (3:27:45) Project 2 - Finger Counter
+⌨ (4:05:43) Project 3 - AI Personal Trainer
+⌨ (4:52:55) Project 4 - AI Virtual Painter
+⌨ (6:01:26) Project 5 - AI Virtual Mouse
+Show less
+
+Machine Learning A  to Z from Udemy. very very complete course to get started into machine learning
+
+from 27:25 to 36:31 do not forget to include the self.complexity for the complexity attribute in the updated mediapipe hands fil
+
+For those having trouble with the first step setting the camera, downgrade the package protobuf to 3.20.0. It installs with mediapipe but in the version 4.21.1 and the code does not work with that version. So manually downgrade this package and you will be OK.
+
+quick hint if your video is too big for the screen:
+
+cv2.namedWindow("Resized_Window", cv2.WINDOW_NORMAL)
+cv2.resizeWindow("Resized_Window", 1200, 700)
+
+cv2.imshow("Resized_Window", img)
+
+### resized window values are the rectangle sides, you can adjust them as you wish
+
+at 2:25:03 instead of using FACE_CONNECTIONS use  mp.solutions.face_mesh_connections.FACEMESH_TESSELATION . The library has been updated and FACE_CONNECTIONS will no longer work.
+
+```````````? for raspberry pi i'm not sure
+ubuntu 18.04
+
+sudo apt install python3.7
+sudo update-alternatives --install /usr/bin/python3 /usr/bin/python3.7 1
+sudo apt install python3-pip
+sudo python3 -m pip install -U pip
+sudo python3 -m pip install -U setuptools
+pip3 install opencv-python 
+pip3 install mediapipe
+``````````````````
+
+Hello, Can anyone help me install autopy ? I have been getting the same error which he got at 6:04:34. I tried reinstalling it but  nothing happened?
+
+I was trying it with python 3.9.5 kept showing errors while installing. Try to install it in python version 2.7 or 3.8. it worked for me.
+
+Great course the first modules and the finger counting to are the ones who have the most meat.
+I managed to pull out a script that recognizes an open and closed hand and depending of the hand state sends a socket to an esp which controls a relay
+
+
+For everyone trying to replicate this course mediapipe doesn't work on python versions below 3.8, while autopy has been stopped maintaining and doesn't work on python version greater than 3.8. After all this I somehow was able to download mediapipe with the old build files, but opencv stop working due to os package from python 3.8, basically it requires os that comes with python > 3.8. So stop wasting your time trying to setup. Just watch the course and get the concepts. If anyone was able to find solution let me know
+
+For the error in the Pose Module section: def __init__(self, mode=False, complexity = 1, smooth=True, seg= False, smooth_seg= False, detectionCon= 0.5, trackCon=0.5):
+
+        self.mode = mode
+        self.complexity = complexity
+        self.smooth = smooth
+        self.seg=seg
+        self.smooth_seg=smooth_seg
+        self.detectionCon = detectionCon 
+        self.trackCon = trackCon
+        self.mpPose = mp.solutions.pose
+        self.pose = self.mpPose.Pose(self.mode, self.complexity, self.smooth, self.seg, self.smooth_seg, self.detectionCon, self.trackCon)
+        self.mpDraw = mp.solutions.drawing_utils  Use this code and it should work

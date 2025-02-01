@@ -1,11 +1,16 @@
 '''
 basic mesh from 
 https://www.computervision.zone/topic/basics-py-4/
+
+On minute ( 2:28:20 ) if mpFaceMesh.FACEMESH_CONNECTIONS doesn't work for you try to change it for mpFaceMesh.FACEMESH_CONTOURS and it should work.
+
+at 2:25:03 instead of using FACE_CONNECTIONS use  mp.solutions.face_mesh_connections.FACEMESH_TESSELATION . The library has been updated and FACE_CONNECTIONS will no longer work.
 '''
 import cv2
 import mediapipe as mp
 import time
-
+import tensorflow as tf
+print(tf.test.is_gpu_available())
 cap = cv2.VideoCapture("Images/Erica_Jon.mov")
 pTime = 0
 
@@ -25,7 +30,7 @@ while True:
             #print(lm)
             ih, iw, ic = img.shape
             x,y = int(lm.x*iw), int(lm.y*ih)
-            print(id,x,y)
+            # print(id,x,y)
 
     cTime = time.time()
     fps = 1 / (cTime - pTime)
