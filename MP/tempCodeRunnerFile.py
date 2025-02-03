@@ -1,1 +1,0 @@
-model_path='/mediapipe_test/hand_landmarker.task'

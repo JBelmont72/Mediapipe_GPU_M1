@@ -1,79 +1,79 @@
 
 '''Finger count 
-the third program is my work through on the problem. Lots of import steps
+the third program is my work through on the problem. Lots of important steps
 
 
 The os.listdir() method in Python is used to get the list of all files and directories in the specified directory. If we don’t specify any directory, then a list of files and directories in the current working directory will be returned.
 '''
-'''
-import cv2
-import time
-import os
-import handTrackModule as htm
-wCam, hCam = 640, 480
-cap = cv2.VideoCapture(1)
-wCam=640
 
-hCam=480
-cap.set(3, wCam)
-cap.set(4, hCam)
-# myList=['a1.png', 'a2.png', 'a3.png', 'a4.png', 'a5.png', 'a6.png']
+# import cv2
+# import time
+# import os
+# import handTrackModule as htm
+# wCam, hCam = 640, 480
+# cap = cv2.VideoCapture(1)
+# wCam=640
 
-folderPath = "/Users/judsonbelmont/Documents/SharedFolders/Mediapipe/Mediapipe_GPU_M1/Images/FingerImages"
-myList = os.listdir(folderPath)
-print(myList)
-overlayList = []
-for imPath in myList:
-    # image=cv2.imread(imPath)
-    image = cv2.imread(f'{folderPath}/{imPath}')
-    image=cv2.resize(image,(640,480))
-    print(f'{folderPath}/{imPath}')
-    overlayList.append(image)
-print(len(overlayList))
-pTime = 0
-detector = htm.handDetector()
-tipIds = [4, 8, 12, 16, 20]
-while True:
-    success, img = cap.read()
+# hCam=480
+# cap.set(3, wCam)
+# cap.set(4, hCam)
+# myList=['a6.png','a1.png', 'a2.png', 'a3.png', 'a4.png', 'a5.png']
+
+# folderPath = "/Users/judsonbelmont/Documents/SharedFolders/Mediapipe/Mediapipe_GPU_M1/Images/FingerCount"
+# # myList = os.listdir(folderPath)
+# print(myList)
+# overlayList = []
+# for imPath in myList:
+#     # image=cv2.imread(imPath)
+#     image = cv2.imread(f'{folderPath}/{imPath}')
+#     image=cv2.resize(image,(640,480))
+#     print(f'{folderPath}/{imPath}')
+#     overlayList.append(image)
+# print(len(overlayList))
+# pTime = 0
+# detector = htm.handDetector()
+# tipIds = [4, 8, 12, 16, 20]
+# while True:
+#     success, img = cap.read()
     
-    img = detector.findHands(img)
-    print(img.shape)
-    lmList = detector.findPosition(img, draw=False)
-    print(lmList)
-    # print(lmList)
-    if len(lmList) != 0:
-        fingers = []
-        # Thumb
-        if lmList[tipIds[0]][1] > lmList[tipIds[0] - 1][1]: # if the tipId is greater than the first one(thumb tip is tip 4 but tipId 0, THEN append)
-            # print(f'\n\ttipIDs:  {tipIds}\n {lmList[tipIds[0]][1]} ipIds[0] - 1][1] {lmList[tipIds[0] - 1][1]}')
-            fingers.append(1)
-        else:
-            fingers.append(0)       ## but if it is tipID 0 (the thumb) go ahead and append
-        # 4 Fingers
-        print('fingers: ',fingers) ## it is [1]  except when a thumb
-        for id in range(1, 5):
-            if lmList[tipIds[id]][2] < lmList[tipIds[id] - 2][2]:
-                fingers.append(1)
-            else:
-                fingers.append(0)### note the here we are adding the number 1 or zero if the finger ids show
-        # print(fingers)
-        totalFingers = fingers.count(1)
-        print(totalFingers)
-        h, w, c = overlayList[totalFingers -1].shape
-        print('h, w, c   ', h, w, c)
-        img[0:h, 0:w] = overlayList[totalFingers - 1]
-        cv2.rectangle(img, (20, 225), (170, 425), (0, 255, 0), cv2.FILLED)
-        cv2.putText(img, str(totalFingers), (45, 375), cv2.FONT_HERSHEY_PLAIN,
-                    10, (255, 0, 0), 25)
-    cTime = time.time()
-    fps = 1 / (cTime - pTime)
-    pTime = cTime
-    cv2.putText(img, f'FPS: {int(fps)}', (400, 70), cv2.FONT_HERSHEY_PLAIN,
-                3, (255, 0, 0), 3)
-    cv2.imshow("Image", img)
-    cv2.waitKey(1)
-'''
-##/Users/judsonbelmont/Documents/SharedFolders/Mediapipe/Mediapipe_GPU_M1/Images/FingerImages
+#     img = detector.findHands(img)
+#     print(img.shape)
+#     lmList = detector.findPosition(img, draw=False)
+#     print(lmList)
+#     # print(lmList)
+#     if len(lmList) != 0:
+#         fingers = []
+#         # Thumb
+#         if lmList[tipIds[0]][1] > lmList[tipIds[0] - 1][1]: # if the tipId is greater than the first one(thumb tip is tip 4 but tipId 0, THEN append)
+#             # print(f'\n\ttipIDs:  {tipIds}\n {lmList[tipIds[0]][1]} ipIds[0] - 1][1] {lmList[tipIds[0] - 1][1]}')
+#             fingers.append(1)
+#         else:
+#             fingers.append(0)       ## but if it is tipID 0 (the thumb) go ahead and append
+#         # 4 Fingers
+#         print('fingers: ',fingers) ## it is [1]  except when a thumb
+#         for id in range(1, 5):
+#             if lmList[tipIds[id]][2] < lmList[tipIds[id] - 2][2]:
+#                 fingers.append(1)
+#             else:
+#                 fingers.append(0)### note the here we are adding the number 1 or zero if the finger ids show
+#         # print(fingers)
+#         totalFingers = fingers.count(1)
+#         print(totalFingers)
+#         h, w, c = overlayList[totalFingers].shape
+#         print('h, w, c   ', h, w, c)
+#         img[0:h, 0:w] = overlayList[totalFingers]
+#         cv2.rectangle(img, (20, 225), (170, 425), (0, 255, 0), cv2.FILLED)
+#         cv2.putText(img, str(totalFingers), (45, 375), cv2.FONT_HERSHEY_PLAIN,
+#                     10, (255, 0, 0), 25)
+#     cTime = time.time()
+#     fps = 1 / (cTime - pTime)
+#     pTime = cTime
+#     cv2.putText(img, f'FPS: {int(fps)}', (400, 70), cv2.FONT_HERSHEY_PLAIN,
+#                 3, (255, 0, 0), 3)
+#     cv2.imshow("Image", img)
+#     cv2.waitKey(1)
+
+## this works /Users/judsonbelmont/Documents/SharedFolders/Mediapipe/Mediapipe_GPU_M1/Images/FingerImages
 # import cv2
 # import time
 # import os
@@ -84,11 +84,11 @@ while True:
 # cap = cv2.VideoCapture(1)
 # cap.set(3, wCam)
 # cap.set(4, hCam)
-# folderPath = "/Users/judsonbelmont/Documents/SharedFolders/Mediapipe/Mediapipe_GPU_M1/Images/FingerImages"
+# folderPath = "/Users/judsonbelmont/Documents/SharedFolders/Mediapipe/Mediapipe_GPU_M1/Images/FingerCount"
 # # folderPath = "/Images/FingerImages"
 # myList = os.listdir(folderPath)
-## i used this:
-# myList=['a1.png', 'a2.png', 'a3.png', 'a4.png', 'a5.png', 'a6.png']
+# # i used this to get the order of images straight:
+# myList=['a6.png','a1.png', 'a2.png', 'a3.png', 'a4.png', 'a5.png']
 # print(myList)
 
 # overlayList = []
@@ -120,11 +120,15 @@ while True:
 #                 fingers.append(1)
 #             else:
 #                 fingers.append(0)
-#         # print(fingers)
+#         print(fingers)
 #         totalFingers = fingers.count(1)
 #         print(totalFingers)
-#         h, w, c = overlayList[totalFingers - 1].shape
-#         img[0:h, 0:w] = overlayList[totalFingers - 1]
+        
+#         h, w, c = overlayList[totalFingers].shape
+#         img[0:h, 0:w] = overlayList[totalFingers]
+        
+#         # h, w, c = overlayList[totalFingers - 1].shape
+#         # img[0:h, 0:w] = overlayList[totalFingers - 1]
 #         cv2.rectangle(img, (20, 225), (170, 425), (0, 255, 0), cv2.FILLED)
 #         cv2.putText(img, str(totalFingers), (45, 375), cv2.FONT_HERSHEY_PLAIN,
 #                     10, (255, 0, 0), 25)
