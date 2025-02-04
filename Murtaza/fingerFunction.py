@@ -1,5 +1,5 @@
 '''
-
+at bottom is the basic function that only returns the finger count and is in the form of a function!! 2 feb 2025
 '''
 import cv2
 import time

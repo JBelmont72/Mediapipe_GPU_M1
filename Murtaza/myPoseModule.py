@@ -141,13 +141,14 @@ class mpPose():
         return poseIndex, poseLandmarks
 def main():
     # cap = cv2.VideoCapture('Images/PoseVid_1.mov')
-    cap = cv2.VideoCapture('Images/MiriamTap.mov')
+    # cap = cv2.VideoCapture('Images/MiriamTap.mov')
+    cap = cv2.VideoCapture('Images/Erica_Jon.mov')
     pTime = 0
     myPose=mpPose()
     while True:
         success, img = cap.read()
         poseIndex,poseLandmarks=     myPose.poseDetector(img,draw=True,flag=False)
-        # print(poseIndex,poseLandmarks)
+        print(poseIndex,poseLandmarks)
         # imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         # results = pose.process(imgRGB)
         # # print(results.pose_landmarks)
