@@ -279,21 +279,9 @@ Would you like example code for both sides?
 
 
 
-
-
-
-
-4o
-You said:
-yes
-ChatGPT said:
-ChatGPT
 1️⃣ MacBook (Publisher) - Sends Finger Count via MQTT
 This script detects the number of raised fingers and publishes the count to an MQTT topic.
 
-python
-Copy
-Edit
 import cv2
 import mediapipe as mp
 import paho.mqtt.client as mqtt
@@ -340,9 +328,6 @@ client.disconnect()
 2️⃣ Raspberry Pi Pico (Subscriber) - Controls Servo
 This script subscribes to the MQTT topic and moves a servo based on the received finger count.
 
-python
-Copy
-Edit
 import network
 import time
 from umqtt.simple import MQTTClient
