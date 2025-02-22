@@ -1,5 +1,11 @@
 '''
 basic five finger count
+import handTrackModule as ht
+from htm import mpHands
+myObject=htm()
+frame,myHands,handsType=myObject.Marks(frame,draw=False)
+all_lmLists=myObject.findPostions(frame,draw=False)
+right_hand_coords, left_hand_coords   =myObject.labelHands(self, frame, myHands, handsType, draw=True)
 
 '''
 import cv2
@@ -19,7 +25,7 @@ folderPath = "/Users/judsonbelmont/Documents/SharedFolders/Mediapipe/Mediapipe_G
 myList=['a6.png','a1.png', 'a2.png', 'a3.png', 'a4.png', 'a5.png']
 print(myList)
 # # importing os module  Experimented with os.listdir(path)
-import os 
+# import os 
 
 # # Get the list of all files and directories 
 # path = "/Library/Scripts/"
@@ -48,12 +54,16 @@ for imPath in myList:
 # print(overlayList[0])
 # print("image  ",image.shape)
 pTime = 0
-detector = ht.handDetector(.75,.75)
+detector=ht.mpHands(2,.75,.75)
+# detector = ht.handDetector(.75,.75)
 tipIds = [4, 8, 12, 16, 20]## instead of a bunch of if conditions we will use a for loop of these finger tips
 while True:
     success, img = cap.read()
-    img = detector.findHands(img)
-    lmList = detector.findPosition(img, draw=False)
+    img=cv2.flip(img,1)
+    img,myHands,handsType = detector.Marks(img)
+    all_lmLists=detector.findPositions(img,draw=False)
+    # lmList = detector.findPosition(img, draw=False)
+    
     # print(lmList)
     # print('img  ',img.shape)
     ## if len(lmList)!= 0:     ## lmList[6][2] this is the 6 landmark and the third element of the tuple which is the y value
@@ -64,63 +74,85 @@ while True:
     
     ## because of the thumb,this is written for the right hand (later I can add a handedness conditon )
     
-    if len(lmList)!=0:
+    if len(all_lmLists)!=0:
         fingers=[]
+        print(all_lmLists)
+        for handType,Lists in zip(handsType,all_lmLists):
+            print(handType,Lists)
+            if handType=='Right':
+                print('Right',handType)
+                if ( Lists[tipIds[0]][1]<Lists[tipIds[0]-1][1] ):## this is to adress the thumb!! for the right hand
+                    fingers.append(1)
+                else:
+                    fingers.append(0)
+                print(fingers)
+            if handType=='Left':
+                print('Left',handType)
+                if ( Lists[tipIds[0]][1]>Lists[tipIds[0]-1][1] ):## this is to adress the thumb!! for the right hand
+                    fingers.append(1)
+                else:
+                    fingers.append(0)
+                print(fingers)
+
+                # if ( Lists[tipIds[0]][2]>Lists[tipIds[0]-1][2] )or ( Lists[tipIds[0]][1]>Lists[tipIds[0]-2][2] ):## this is to adress the thumb!! for the right hand
+                # # below is for the left hand and i used the index one of lmList which is the x value.(for the othe rfingers used the y value)
         
-        # if ( lmList[tipIds[0]][2]>lmList[tipIds[0]-1][2] )or ( lmList[tipIds[0]][1]>lmList[tipIds[0]-2][2] ):## this is to adress the thumb!! for the right hand
-        ## below is for the left hand and i used the index one of lmList which is the x value.(for the othe rfingers used the y value)
-        if ( lmList[tipIds[0]][1]<lmList[tipIds[0]-1][1] ):## this is to adress the thumb!! for the right hand
-            fingers.append(1)
-        else:
-            fingers.append(0)
+                # # if ( all_lmLists[tipIds[0]][1]<all_lmLists[tipIds[0]-1][1] ):## this is to adress the thumb!! for the right hand
+                #     fingers.append(1)
+                # else:
+                #     fingers.append(0)
+        
+                # print(fingers)
         
         
-        
-        
-        
-        for id in range(1,len(tipIds),1):##This was ' for id in range(0,len(tipIds)' but because of the thumb will decrease it by one and create a codniton just for the thumb, and start at index 1 not zero!!!!!!!!!!!
-            if lmList[tipIds[id]][2]<lmList[tipIds[id]-2][2]:
-                fingers.append(1)
-            else:
-                fingers.append(0)
-        # print(fingers)
-        # print(fingers.count(1))## this counts the number of ones
-        totalFingers=fingers.count(1)
-        # print(fingers.count(0))
-        h,w,c =overlayList[totalFingers].shape
-        # print(h,w,c)
-        img[0:int(h),0:int(w)]=overlayList[totalFingers]
+            
+            for id in range(1,len(tipIds),1):##This was ' for id in range(0,len(tipIds)' but because of the thumb will decrease it by one and create a codniton just for the thumb, and start at index 1 not zero!!!!!!!!!!!
+                if Lists[tipIds[id]][2]<Lists[tipIds[id]-2][2]:
+                    fingers.append(1)
+                else:
+                    fingers.append(0)
+            print(fingers)
+            print(fingers.count(1))## this counts the number of ones
+            totalFingers=fingers.count(1)
+            RealTotal=totalFingers
+            if totalFingers>=5:
+                totalFingers=5
+            # print(fingers.count(0))
+            h,w,c =overlayList[totalFingers].shape
+            # print(h,w,c)
+            img[0:int(h),0:int(w)]=overlayList[totalFingers]
+            
+
     
     
     
-    
-    
-    # if len(lmList) != 0:
-    #     fingers = []
-    #     # Thumb
-    #     if lmList[tipIds[0]][1] > lmList[tipIds[0] - 1][1]:
-    #         fingers.append(1)
-    #     else:
-    #         fingers.append(0)
-    #     # 4 Fingers
-    #     for id in range(1, 5):
-    #         if lmList[tipIds[id]][2] < lmList[tipIds[id] - 2][2]:
-    #             fingers.append(1)
-    #         else:
-    #             fingers.append(0)
-    #     # print(fingers)
-    #     totalFingers = fingers.count(1)
-    #     print(totalFingers)
-    #     h, w, c = overlayList[totalFingers - 1].shape
-    #     img[0:h, 0:w] = overlayList[totalFingers - 1]
-        cv2.rectangle(img, (20, hCam-40), (170, hCam-200), (0, 255, 0), cv2.FILLED)
-        cv2.putText(img, str(totalFingers), (45, hCam-80), cv2.FONT_HERSHEY_PLAIN,
+    # # if len(lmList) != 0:
+    # #     fingers = []
+    # #     # Thumb
+    # #     if lmList[tipIds[0]][1] > lmList[tipIds[0] - 1][1]:
+    # #         fingers.append(1)
+    # #     else:
+    # #         fingers.append(0)
+    # #     # 4 Fingers
+    # #     for id in range(1, 5):
+    # #         if lmList[tipIds[id]][2] < lmList[tipIds[id] - 2][2]:
+    # #             fingers.append(1)
+    # #         else:
+    # #             fingers.append(0)
+    # #     # print(fingers)
+    # #     totalFingers = fingers.count(1)
+    # #     print(totalFingers)
+    # #     h, w, c = overlayList[totalFingers - 1].shape
+    # #     img[0:h, 0:w] = overlayList[totalFingers - 1]
+        cv2.rectangle(img, (20, hCam-40), (240, hCam-200), (0, 255, 0), cv2.FILLED)
+        cv2.putText(img, str(RealTotal), (45, hCam-80), cv2.FONT_HERSHEY_PLAIN,
                     10, (255, 0, 0), 25)
+
+    
     cTime = time.time()
     fps = 1 / (cTime - pTime)
     pTime = cTime
-    cv2.putText(img, f'FPS: {int(fps)}', (400, 70), cv2.FONT_HERSHEY_PLAIN,
-                3, (255, 0, 0), 3)
+    cv2.putText(img, f'FPS: {int(fps)}', (400, 70), cv2.FONT_HERSHEY_PLAIN,3, (255, 0, 0), 3)
     cv2.imshow("Image", img)
     if cv2.waitKey(1)&0xff==27:
         break

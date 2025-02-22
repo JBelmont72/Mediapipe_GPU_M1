@@ -59,7 +59,6 @@ print(np.__version__)
 import time
 # import tensorflow as tf
 # tf.config.experimental.set_memory_growth(tf.config.list_physical_devices('GPU')[0], True)
-
 # class handDetector():
 class mpHands:
     import mediapipe as mp
@@ -143,31 +142,37 @@ def main():
         frame = cv2.resize(frame, (width, height))
         frame = cv2.flip(frame, 1)
         frame, handsLM, handsType = findHands.Marks(frame, draw=True)
-        # all_lmLists = findHands.findPositions(frame, draw=False)  # Get landmarks without drawing here
-
-        # # Loop over each hand's landmarks along with its type
-        # for lmList, handType in zip(all_lmLists, handsType):
-        #     if handType == 'Right':
-        #         # Draw blue circles for right hand landmarks
-        #         for id, cx, cy in lmList:
-        #             cv2.circle(frame, (cx, cy), 15, (255, 0, 0), cv2.FILLED)
-        #     elif handType == 'Left':
-        #         # Draw green circles for left hand landmarks
-        #         for id, cx, cy in lmList:
-        #             cv2.circle(frame, (cx, cy), 15, (0, 255, 0), cv2.FILLED)
-        right_hand_coords, left_hand_coords = findHands.labelHands(frame, handsLM, handsType)
-        if handsLM:  # Only proceed if any hands are detected
-            lmList = findHands.findPositions(frame, draw=False)
-            if lmList:
-                print(lmList)
+        all_lmLists = findHands.findPositions(frame, draw=False)  # Get landmarks without drawing here [[0,322,739,...]]
+        # for hand,handType in zip(handsLM,handsType):## gives left and/or rignt and tuple
+        #     print(hand,handType)
+        #     if handType == 'Left':
+        #         print(hand[8])
+        #         cv2.circle(frame,hand[8],30,(255,0,0),3)
+            
+        # Loop over each hand's landmarks along with its type, uses handsType from .Marks() and all_lmLists from .findPositions()
+        for lmList, handType in zip(all_lmLists, handsType):   ## all_lmLists contains [[0,22,234],...]
+            if handType == 'Right':
+                # Draw blue circles for right hand landmarks
+                for id, cx, cy in lmList:
+                    cv2.circle(frame, (cx, cy), 15, (255, 0, 0), cv2.FILLED)
+            elif handType == 'Left':
+                # Draw green circles for left hand landmarks
+                for id, cx, cy in lmList:
+                    cv2.circle(frame, (cx, cy), 15, (0, 255, 0), cv2.FILLED)
+        ###~~~~~~~~~~~
+        # right_hand_coords, left_hand_coords = findHands.labelHands(frame, handsLM, handsType)## .labelHands() uses .Marks()
+        # if handsLM:  # Only proceed if any hands are detected
+        #     lmList = findHands.findPositions(frame, draw=False)
+        #     if lmList:
+        #         print(lmList)
         
-        if right_hand_coords:
-            # Perform action for right hand
-            cv2.circle(frame, right_hand_coords, 20, (255, 0, 0), 2)  # Blue circle for right hand
+        # if right_hand_coords:
+        #     # Perform action for right hand
+        #     cv2.circle(frame, right_hand_coords, 20, (255, 0, 0), 2)  # Blue circle for right hand
 
-        if left_hand_coords:
-            # Perform action for left hand
-            cv2.circle(frame, left_hand_coords, 20, (0, 255, 0), 2)  # Green circle for left hand
+        # if left_hand_coords:
+        #     # Perform action for left hand
+        #     cv2.circle(frame, left_hand_coords, 20, (0, 255, 0), 2)  # Green circle for left hand
 
         cTime = time.time()
         fps = 1 / (cTime - pTime)
