@@ -72,8 +72,8 @@ class mpHands:
         for hand,handType in zip(myHands,handsType):
             if handType=='Right':
                 lbl='Right'
-                print('this is my ',lbl)
-                # cv2.putText(frame,lbl,hand[8],cv2.FONT_HERSHEY_PLAIN,2,(255,0,255),2)
+                print('this is my ',lbl)    
+                cv2.putText(frame,lbl,hand[8],cv2.FONT_HERSHEY_PLAIN,2,(255,0,255),2)
         for hand,handType in zip(myHands,handsType):        
             if handType=='Left':
                 lbl='Left'
@@ -81,6 +81,8 @@ class mpHands:
                 print(hand[8])
             if draw:
                 cv2.putText(frame,lbl,hand[8],cv2.FONT_HERSHEY_PLAIN,2,(255,0,255),2)
+
+
 def main():
     import cv2
     print(cv2.__version__)
@@ -108,14 +110,13 @@ def main():
         frame,handsLM,handsType=findHands.Marks(frame,True)
         lmList=findHands.findPosition(frame,0,True)
         findHands.labelHands(frame,handsLM,handsType)
-        
         # faceLoc=findFace.Marks(frame)
         # poseLM=findPose.Marks(frame)
         print(handsType)
         if len(lmList)!=0:
-                # print(lmList[4])
+                print(lmList[4])
                 id,x,y=lmList[4]
-                # print(x,' ',y,' ',id)
+                print(x,' ',y,' ',id)
                 cv2.circle(frame,(x,y),20,(255,255,0),2)
         
         
