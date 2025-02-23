@@ -1,4 +1,4 @@
-'''
+'''handTrackModule.py is the most up to date
 To differentiate between actions for the right and left hands in your program, you can modify the labelHands method to return the coordinates of specific landmarks for each hand. This will allow you to perform distinct actions based on the hand type. Here's how you can adjust your code:
 
 Modify the labelHands Method: Update this method to return the coordinates of a specific landmark (e.g., the tip of the index finger) for both the right and left hands.
