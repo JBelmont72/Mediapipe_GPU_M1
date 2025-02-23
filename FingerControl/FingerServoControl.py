@@ -109,8 +109,12 @@ import os
 import handTrackModule as ht
 import socket
 # Setup socket connection
-HOST = '127.0.0.1'  # Replace with Raspberry Pi Pico's IP
+# HOST = '0.0.0.0'  # Replace with Raspberry Pi Pico's IP
+# PORT = 12345
+
+HOST = '192.168.1.30'  # Use the Pico W AP IP address
 PORT = 12345
+
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect((HOST, PORT))
 ## start videiCam
@@ -118,6 +122,7 @@ wCam, hCam = 1280, 760
 cap = cv2.VideoCapture(1)
 cap.set(3, wCam)
 cap.set(4, hCam)
+#/Users/judsonbelmont/Documents/SharedFolders/Mediapipe/Mediapipe_GPU_M1/Images/FingerCount
 folderPath = "/Users/judsonbelmont/Documents/SharedFolders/Mediapipe/Mediapipe_GPU_M1/Images/FingerCount"
 # folderPath = "/Images/FingerImages"
 # myList = os.listdir(folderPath)
@@ -170,7 +175,12 @@ def counter_fingers(img):
             print(fingers)
             print(fingers.count(1))## this counts the number of ones
             totalFingers=fingers.count(1)
-            RealTotal=totalFingers
+            RealTotal=totalFingers or 0
+            if RealTotal is None:
+                print("No fingers detected")
+            else:
+                print(f'Sending Total Fingers: {RealTotal}')
+
             if totalFingers>=5:
                 totalFingers=5
             # print(fingers.count(0))
@@ -191,11 +201,27 @@ while True:
         break
     img=cv2.flip(img,1)
  
-    RealTotal=counter_fingers(img)
-    print(f'Sending Total Fingers: {RealTotal}')
+    # RealTotal=counter_fingers(img)
+    # print(f'Sending Total Fingers: {RealTotal}')
     
     # Send finger count as a string
-    client_socket.sendall(str(RealTotal).encode())
+ 
+
+    try:
+        RealTotal = counter_fingers(img) or 0
+        print(f'Sending Total Fingers: {RealTotal}')
+        
+        # client_socket.sendall(str(RealTotal).encode())
+        client_socket.sendall(f'{RealTotal}\n'.encode())
+    except (BrokenPipeError, ConnectionResetError):
+        print("Connection lost! Trying to reconnect...")
+        client_socket.close()
+        time.sleep(2)
+        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client_socket.connect((HOST, PORT))
+
+
+
     cTime = time.time()
     fps = 1 / (cTime - pTime)
     pTime = cTime
