@@ -136,24 +136,31 @@ def main():
 
     findHands = mpHands(2)
     pTime = 0
-
+    keyPoints=[4,8,12,16,20]
     while True:
         ret, frame = cam.read()
         frame = cv2.resize(frame, (width, height))
         frame = cv2.flip(frame, 1)
-        frame, handsLM, handsType = findHands.Marks(frame, draw=True)
+        frame, handsLM, handsType = findHands.Marks(frame, draw=False)
         all_lmLists = findHands.findPositions(frame, draw=False)  # Get landmarks without drawing here [[0,322,739,...]]
-        # for hand,handType in zip(handsLM,handsType):## gives left and/or rignt and tuple
-        #     print(hand,handType)
-        #     if handType == 'Left':
-        #         print(hand[8])
-        #         cv2.circle(frame,hand[8],30,(255,0,0),3)
+        for hand,handType in zip(handsLM,handsType):## gives left and/or rignt and tuple
+            print(hand,handType)
+            if handType == 'Left':
+                print(hand[8])
+                cv2.circle(frame,hand[8],30,(255,0,0),3)
+                for ind in keyPoints:
+                    cv2.circle(frame,hand[ind],25,(255,0,255),3)
+         
+         
             
         # Loop over each hand's landmarks along with its type, uses handsType from .Marks() and all_lmLists from .findPositions()
         for lmList, handType in zip(all_lmLists, handsType):   ## all_lmLists contains [[0,22,234],...]
             if handType == 'Right':
                 # Draw blue circles for right hand landmarks
+                # for id in keyPoints:
                 for id, cx, cy in lmList:
+                
+                    # print(id,cx,cy)     
                     cv2.circle(frame, (cx, cy), 15, (255, 0, 0), cv2.FILLED)
             elif handType == 'Left':
                 # Draw green circles for left hand landmarks

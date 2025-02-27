@@ -127,7 +127,7 @@ folderPath = "/Users/judsonbelmont/Documents/SharedFolders/Mediapipe/Mediapipe_G
 # folderPath = "/Images/FingerImages"
 # myList = os.listdir(folderPath)
 # print(myList)
-myList=['a6.png','a1.png', 'a2.png', 'a3.png', 'a4.png', 'a5.png']
+myList=['a6.png','a1.png', 'a2.png', 'a3.png', 'a4.png', 'a5.png','a7.png','a8.png','a9.png','a10.png']
 print(myList)
 
 overlayList = []
@@ -181,8 +181,8 @@ def counter_fingers(img):
             else:
                 print(f'Sending Total Fingers: {RealTotal}')
 
-            if totalFingers>=5:
-                totalFingers=5
+            if totalFingers>7:
+                totalFingers=7
             # print(fingers.count(0))
             h,w,c =overlayList[totalFingers].shape
             # print(h,w,c)

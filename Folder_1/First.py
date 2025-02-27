@@ -1,6 +1,6 @@
 import cv2
 import mediapipe as mp
-import tensorflow as tf
+# import tensorflow as tf
 ## instructions to load tensor flow below
 # Initialize Mediapipe Hands
 mp_hands = mp.solutions.hands
@@ -27,6 +27,17 @@ while cap.isOpened():
         for hand_landmarks in results.multi_hand_landmarks:
             mp.solutions.drawing_utils.draw_landmarks(image, hand_landmarks, mp_hands.HAND_CONNECTIONS)
 
+            print(hand_landmarks.landmark)
+            for hand in hand_landmarks.landmark:
+                print(hand)
+                print(hand.x,hand.y)
+                
+                
+                
+                
+            
+                
+   
     # Display the image
     cv2.imshow('Hand Tracking', image)
 

@@ -7,7 +7,7 @@ import socket,cv2, pickle,struct
 # create socket
 client_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 # host_ip = '192.168.1.20' # paste your server ip address here
-PORT = 9999
+PORT = 12345
 
 host_name  = socket.gethostname()
 host_ip = socket.gethostbyname(host_name)
@@ -16,7 +16,8 @@ print('HOST IP:',host_ip)
 socket_address = (host_ip,PORT) 
 
 
-client_socket.connect(('127.0.0.1',PORT)) # a tuple
+client_socket.connect(('192.168.1.30',PORT)) # a tuple
+# client_socket.connect(('127.0.0.1',PORT)) # a tuple
 data = b""
 payload_size = struct.calcsize("Q")
 while True:
