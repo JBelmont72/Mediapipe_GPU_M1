@@ -53,15 +53,15 @@ asyncio.run(main())
 # Websockets Bidirectional
 # Here's the WebSocket server implementation for the Raspberry Pi Pico. Now, I'll prepare the WebSocket client for your MacBook, which will send the finger count and receive LED status updates.
 
-I'll provide WebSockets-based client and server implementations to enable bidirectional communication. The MacBook will send the finger count, and the Pico will send back a notification when the LED is turned on. Stay tuned while I prepare the code.
+# I'll provide WebSockets-based client and server implementations to enable bidirectional communication. The MacBook will send the finger count, and the Pico will send back a notification when the LED is turned on. Stay tuned while I prepare the code.
 
-Websockets Bidirectional
-Here's the WebSocket server implementation for the Raspberry Pi Pico. Now, I'll prepare the WebSocket client for your MacBook, which will send the finger count and receive LED status updates.
-I'll provide WebSockets-based client and server implementations to enable bidirectional communication. The MacBook will send the finger count, and the Pico will send back a notification when the LED is turned on. Stay tuned while I prepare the code.
+# Websockets Bidirectional
+# Here's the WebSocket server implementation for the Raspberry Pi Pico. Now, I'll prepare the WebSocket client for your MacBook, which will send the finger count and receive LED status updates.
+# I'll provide WebSockets-based client and server implementations to enable bidirectional communication. The MacBook will send the finger count, and the Pico will send back a notification when the LED is turned on. Stay tuned while I prepare the code.
 
-Websockets Bidirectional
-Here's the WebSocket server implementation for the Raspberry Pi Pico. Now, I'll prepare the WebSocket client for your MacBook, which will send the finger count and receive LED status updates.
-### WebSocket Server (Raspberry Pi Pico - MicroPython)
+# Websockets Bidirectional
+# Here's the WebSocket server implementation for the Raspberry Pi Pico. Now, I'll prepare the WebSocket client for your MacBook, which will send the finger count and receive LED status updates.
+# ### WebSocket Server (Raspberry Pi Pico - MicroPython)
 
 import uasyncio as asyncio
 import network
@@ -179,24 +179,24 @@ asyncio.run(send_finger_count())
 
 
 
-You said:
-can you send again the versions for WEBSOCKETS and enable bidirectional communication. I want to send back a notification from the pico that an led is turned on when the finger count is a specific value such as 1. Also, what are the advantages of WEBSOCKETS over socket and MQTT?
-ChatGPT said:
-ChatGPT
-Advantages of WebSockets Over Sockets and MQTT
-Real-Time, Full-Duplex Communication:
-Unlike traditional sockets, WebSockets allow simultaneous sending and receiving of messages without constant re-establishing of connections.
-MQTT, while efficient, follows a publish-subscribe model and introduces a slight delay due to the broker.
-Low Latency:
-WebSockets maintain an open connection, leading to faster communication than MQTT (which involves a broker) and traditional sockets (which require reconnections or polling).
-Lightweight and Efficient for Bidirectional Communication:
-WebSockets allow direct communication between the client and the server without the need for a third-party broker (as in MQTT).
-Traditional TCP/UDP sockets can be used similarly but require more manual handling of connection states.
-Better for Web-Based Applications:
-WebSockets are natively supported by web browsers
+# You said:
+# can you send again the versions for WEBSOCKETS and enable bidirectional communication. I want to send back a notification from the pico that an led is turned on when the finger count is a specific value such as 1. Also, what are the advantages of WEBSOCKETS over socket and MQTT?
+# ChatGPT said:
+# ChatGPT
+# Advantages of WebSockets Over Sockets and MQTT
+# Real-Time, Full-Duplex Communication:
+# Unlike traditional sockets, WebSockets allow simultaneous sending and receiving of messages without constant re-establishing of connections.
+# MQTT, while efficient, follows a publish-subscribe model and introduces a slight delay due to the broker.
+# Low Latency:
+# WebSockets maintain an open connection, leading to faster communication than MQTT (which involves a broker) and traditional sockets (which require reconnections or polling).
+# Lightweight and Efficient for Bidirectional Communication:
+# WebSockets allow direct communication between the client and the server without the need for a third-party broker (as in MQTT).
+# Traditional TCP/UDP sockets can be used similarly but require more manual handling of connection states.
+# Better for Web-Based Applications:
+# WebSockets are natively supported by web browsers
 
 
-Websockets Bidirectional
+# Websockets Bidirectional
 
 
 

@@ -119,10 +119,12 @@ def main():
         frame = cv2.flip(frame, 1)
         frame, handsLM, handsType = findHands.Marks(frame, True)
         right_hand_coords, left_hand_coords = findHands.labelHands(frame, handsLM, handsType)
+        print(right_hand_coords)
         if handsLM:  # Only proceed if any hands are detected
             lmList = findHands.findPosition(frame, handNo=0, draw=True)
             if lmList:
                 print(lmList)
+                
         
         
         # lmList = findHands.findPosition(frame, handNo=0, draw=True)
@@ -132,7 +134,7 @@ def main():
         if right_hand_coords:
             # Perform action for right hand
             cv2.circle(frame, right_hand_coords, 20, (255, 0, 0), 2)  # Blue circle for right hand
-
+            
         if left_hand_coords:
             # Perform action for left hand
             cv2.circle(frame, left_hand_coords, 20, (0, 255, 0), 2)  # Green circle for left hand

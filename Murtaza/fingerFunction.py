@@ -299,7 +299,9 @@ tipIds = [4, 8, 12, 16, 20]  # Fingertip landmarks
 
 def count_fingers(img):
     """Processes an image, detects the hand, and returns the number of fingers raised."""
-    img = detector.findHands(img)
+    
+    
+    img= detector.findHands(img)
     lmList = detector.findPosition(img, draw=False)
 
     if len(lmList) == 0:

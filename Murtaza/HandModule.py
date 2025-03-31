@@ -78,7 +78,7 @@ class mpHands:
             if handType=='Left':
                 lbl='Left'
                 print('this is my ',lbl)
-                print(hand[8])
+                print(hand[8])      ## (x,y)
             if draw:
                 cv2.putText(frame,lbl,hand[8],cv2.FONT_HERSHEY_PLAIN,2,(255,0,255),2)
 
@@ -109,12 +109,12 @@ def main():
         frame=cv2.flip(frame,1)
         frame,handsLM,handsType=findHands.Marks(frame,True)
         lmList=findHands.findPosition(frame,0,True)
-        findHands.labelHands(frame,handsLM,handsType)
+        findHands.labelHands(frame,handsLM,handsType)## no return to main in this one. it displays on its own
         # faceLoc=findFace.Marks(frame)
         # poseLM=findPose.Marks(frame)
-        print(handsType)
+        print('handstype: ',handsType) ## returns 
         if len(lmList)!=0:
-                print(lmList[4])
+                print(lmList[4])        ## [id,x,y]
                 id,x,y=lmList[4]
                 print(x,' ',y,' ',id)
                 cv2.circle(frame,(x,y),20,(255,255,0),2)

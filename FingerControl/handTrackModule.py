@@ -144,7 +144,7 @@ def main():
         frame, handsLM, handsType = findHands.Marks(frame, draw=False)
         all_lmLists = findHands.findPositions(frame, draw=False)  # Get landmarks without drawing here [[0,322,739,...]]
         for hand,handType in zip(handsLM,handsType):## gives left and/or rignt and tuple
-            print(hand,handType)
+            # print(hand,handType)## a list of tuples of x and y
             if handType == 'Left':
                 print(hand[8])
                 cv2.circle(frame,hand[8],30,(255,0,0),3)
@@ -155,6 +155,7 @@ def main():
             
         # Loop over each hand's landmarks along with its type, uses handsType from .Marks() and all_lmLists from .findPositions()
         for lmList, handType in zip(all_lmLists, handsType):   ## all_lmLists contains [[0,22,234],...]
+            print(lmList) ## this return l list of lsits of 3 digits == id, x and y
             if handType == 'Right':
                 # Draw blue circles for right hand landmarks
                 # for id in keyPoints:

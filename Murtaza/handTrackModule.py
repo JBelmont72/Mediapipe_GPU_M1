@@ -1,5 +1,4 @@
-'''NOTE I replaced this with HandModule.py in Murtaza folder because I could not get this to identify individual hands
-Note Save maybe for future reference as lessons proceed.
+'''NOTE i like this one using the Marks and findPositons methods not actually using the labelHands method since it does not return anything to main 
 follow Murtaza's class structure 
 Pass true to draw connections and circles
 works fine but for one hand
@@ -101,36 +100,41 @@ def main():
         frame = cv2.resize(frame, (width, height))
         frame = cv2.flip(frame, 1)
         frame, handsLM, handsType = findHands.Marks(frame, draw=True)
-        # all_lmLists = findHands.findPositions(frame, draw=False)  # Get landmarks without drawing here
+        all_lmLists = findHands.findPositions(frame, draw=False)  # Get landmarks without drawing here
 
-        # # Loop over each hand's landmarks along with its type
-        # for lmList, handType in zip(all_lmLists, handsType):
-        #     if handType == 'Right':
-        #         # Draw blue circles for right hand landmarks
-        #         for id, cx, cy in lmList:
-        #             cv2.circle(frame, (cx, cy), 15, (255, 0, 0), cv2.FILLED)
-        #     elif handType == 'Left':
-        #         # Draw green circles for left hand landmarks
-        #         for id, cx, cy in lmList:
-        #             cv2.circle(frame, (cx, cy), 15, (0, 255, 0), cv2.FILLED)
-
+        # Loop over each hand's landmarks along with its type
+        for lmList, handType in zip(all_lmLists, handsType):
+            if handType == 'Right': ## a list of id,x,y
+                # Draw blue circles for right hand landmarks
+                for id, cx, cy in lmList:
+                    cv2.circle(frame, (cx, cy), 15, (255, 0, 0), cv2.FILLED)
+                    if id==8:
+                        cv2.putText(frame,'Right',(cx-5,int(cy-20)),cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,255,3))
+                    # if id==8:
+                    #     print(f'id: {id} cx: {cx} cy: {cy}')
+            elif handType == 'Left':
+                # Draw green circles for left hand landmarks
+                for id, cx, cy in lmList:
+                    cv2.circle(frame, (cx, cy), 15, (0, 255, 0), cv2.FILLED)
+                    if id==8:
+                        cv2.putText(frame,'Left',(cx-5,int(cy-20)),cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,255,3))
             
         
         
         
-        right_hand_coords, left_hand_coords = findHands.labelHands(frame, handsLM, handsType)
-        if handsLM:  # Only proceed if any hands are detected
-            lmList = findHands.findPositions(frame, draw=False)
-            if lmList:
-                print(lmList)
+        # right_hand_coords, left_hand_coords = findHands.labelHands(frame, handsLM, handsType)
+        # if handsLM:  # Only proceed if any hands are detected
+        #     lmList = findHands.findPositions(frame, draw=False)
+        #     if lmList:
+        #         print(lmList)
         
-        if right_hand_coords:
-            # Perform action for right hand
-            cv2.circle(frame, right_hand_coords, 20, (255, 0, 0), 2)  # Blue circle for right hand
+        # if right_hand_coords:
+        #     # Perform action for right hand
+        #     cv2.circle(frame, right_hand_coords, 20, (255, 0, 0), 2)  # Blue circle for right hand
 
-        if left_hand_coords:
-            # Perform action for left hand
-            cv2.circle(frame, left_hand_coords, 20, (0, 255, 0), 2)  # Green circle for left hand
+        # if left_hand_coords:
+        #     # Perform action for left hand
+        #     cv2.circle(frame, left_hand_coords, 20, (0, 255, 0), 2)  # Green circle for left hand
 
         cTime = time.time()
         fps = 1 / (cTime - pTime)
