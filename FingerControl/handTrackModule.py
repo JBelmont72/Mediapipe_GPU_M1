@@ -1,4 +1,30 @@
 '''
+Legend for data produced 
+for lmList, handType in zip(all_lmLists, handsType):   ## all_lmLists contains [[0,22,234],...]
+            print(lmList,handType) ## this return l list of lsits of 3 digits == id, x and y
+
+for hand,handType in zip(handsLM,handsType):## gives left and/or rignt and tuple
+            print(hand,handType)## a list of tuples of x and y
+
+
+ def Marks()  ===  return frame,myHands,handsType
+def Positions  ====  all_lmLists = findHands.findPositions(frame, draw=False)  # Get landmarks without drawing here [[0,322,739,...]]
+the function for getting just the right and left hand coordinates and then only returns
+def labelHands(self, frame, myHands, handsType, draw=True):=== return right_hand_coords, left_hand_coords
+
+right_hand_coords, left_hand_coords = findHands.labelHands(frame, handsLM, handsType)## .labelHands() uses .Marks()
+        if handsLM:  # Only proceed if any hand landmarks  are detected and just returns hand locator coordinates [x,y] for l and r
+            lmList = findHands.findPositions(frame, draw=False)
+            if lmList:
+                print(lmList)   ## [[[0, 13, 574], [1, 27, 482], [2, 84, 399]...
+        
+        if right_hand_coords:
+            print('Right', right_hand_coords)
+            # Perform action for right hand
+            cv2.circle(frame, right_hand_coords, 20, (255, 0, 0), 2) 
+
+
+
 this is a copy in the FINGER CONTROL FOLDER  becasue I need it to be accessible for importing.
 NOTE that if I want to utilize left right handedness, I should use the HandModule.py that is the MURTAZA folder
 import mediapipe as mp
@@ -128,7 +154,7 @@ def main():
     import time
     width = 1280
     height = 720
-    cam = cv2.VideoCapture(1)
+    cam = cv2.VideoCapture(0)
     cam.set(cv2.CAP_PROP_FRAME_WIDTH, width)
     cam.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
     cam.set(cv2.CAP_PROP_FPS, 30)
@@ -152,10 +178,10 @@ def main():
                     cv2.circle(frame,hand[ind],25,(255,0,255),3)
          
          
-            
+           
         # Loop over each hand's landmarks along with its type, uses handsType from .Marks() and all_lmLists from .findPositions()
         for lmList, handType in zip(all_lmLists, handsType):   ## all_lmLists contains [[0,22,234],...]
-            print(lmList) ## this return l list of lsits of 3 digits == id, x and y
+            # print(lmList,handType) ## this return l list of lsits of 3 digits == id, x and y
             if handType == 'Right':
                 # Draw blue circles for right hand landmarks
                 # for id in keyPoints:
@@ -167,20 +193,21 @@ def main():
                 # Draw green circles for left hand landmarks
                 for id, cx, cy in lmList:
                     cv2.circle(frame, (cx, cy), 15, (0, 255, 0), cv2.FILLED)
-        ###~~~~~~~~~~~
-        # right_hand_coords, left_hand_coords = findHands.labelHands(frame, handsLM, handsType)## .labelHands() uses .Marks()
-        # if handsLM:  # Only proceed if any hands are detected
-        #     lmList = findHands.findPositions(frame, draw=False)
-        #     if lmList:
-        #         print(lmList)
         
-        # if right_hand_coords:
-        #     # Perform action for right hand
-        #     cv2.circle(frame, right_hand_coords, 20, (255, 0, 0), 2)  # Blue circle for right hand
+        right_hand_coords, left_hand_coords = findHands.labelHands(frame, handsLM, handsType)## .labelHands() uses .Marks()
+        if handsLM:  # Only proceed if any hand landmarks  are detected
+            lmList = findHands.findPositions(frame, draw=False)
+            if lmList:
+                print(lmList)   ## [[[0, 13, 574], [1, 27, 482], [2, 84, 399]...
+        
+        if right_hand_coords:
+            print('Right', right_hand_coords)
+            # Perform action for right hand
+            cv2.circle(frame, right_hand_coords, 20, (255, 0, 0), 2)  # Blue circle for right hand
 
-        # if left_hand_coords:
-        #     # Perform action for left hand
-        #     cv2.circle(frame, left_hand_coords, 20, (0, 255, 0), 2)  # Green circle for left hand
+        if left_hand_coords:
+            # Perform action for left hand
+            cv2.circle(frame, left_hand_coords, 20, (0, 255, 0), 2)  # Green circle for left hand
 
         cTime = time.time()
         fps = 1 / (cTime - pTime)

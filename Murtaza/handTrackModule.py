@@ -2,10 +2,80 @@
 follow Murtaza's class structure 
 Pass true to draw connections and circles
 works fine but for one hand
-'''
-# import tensorflow as tf
-# print(tf.config.list_physical_devices('GPU'))
 
+Legend for data produced 
+for lmList, handType in zip(all_lmLists, handsType):   ## all_lmLists contains [[0,22,234],...]
+            print(lmList,handType) ## this return l list of lsits of 3 digits == id, x and y
+
+for hand,handType in zip(handsLM,handsType):## gives left and/or rignt and tuple
+            print(hand,handType)## a list of tuples of x and y
+
+
+ def Marks()  ===  return frame,myHands,handsType
+def Positions  ====  all_lmLists = findHands.findPositions(frame, draw=False)  # Get landmarks without drawing here [[0,322,739,...]]
+the function for getting just the right and left hand coordinates and then only returns
+def labelHands(self, frame, myHands, handsType, draw=True):=== return right_hand_coords, left_hand_coords
+
+right_hand_coords, left_hand_coords = findHands.labelHands(frame, handsLM, handsType)## .labelHands() uses .Marks()
+        if handsLM:  # Only proceed if any hand landmarks  are detected and just returns hand locator coordinates [x,y] for l and r
+            lmList = findHands.findPositions(frame, draw=False)
+            if lmList:
+                print(lmList)   ## [[[0, 13, 574], [1, 27, 482], [2, 84, 399]...
+        
+        if right_hand_coords:
+            print('Right', right_hand_coords)
+            # Perform action for right hand
+            cv2.circle(frame, right_hand_coords, 20, (255, 0, 0), 2) 
+
+
+
+this is a copy in the FINGER CONTROL FOLDER  becasue I need it to be accessible for importing.
+NOTE that if I want to utilize left right handedness, I should use the HandModule.py that is the MURTAZA folder
+import mediapipe as mp
+import sys
+import cv2
+print(cv2.__version__)
+import numpy as np
+print(f"This is version {sys.version}")
+print(np.__version__)
+import time
+
+import handTrackModule as htm
+from htm import mpHands
+myObject=htm()
+frame,myHands,handsType=myObject.Marks(frame,draw=False)
+all_lmLists=myObject.findPostions(frame,draw=False)
+right_hand_coords, left_hand_coords   =myObject.labelHands(self, frame, myHands, handsType, draw=True)
+def main():
+    import cv2
+    import time
+    width = 1280
+    height = 720
+    cam = cv2.VideoCapture(1)
+    cam.set(cv2.CAP_PROP_FRAME_WIDTH, width)
+    cam.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
+    cam.set(cv2.CAP_PROP_FPS, 30)
+    cam.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc(*'MJPG'))
+
+    findHands = mpHands(2)
+    pTime = 0
+
+    while True:
+        ret, frame = cam.read()
+        frame = cv2.resize(frame, (width, height))
+        frame = cv2.flip(frame, 1)
+        frame, handsLM, handsType = findHands.Marks(frame, draw=True)
+        right_hand_coords, left_hand_coords = findHands.labelHands(frame, handsLM, handsType)
+        if handsLM:  # Only proceed if any hands are detected
+            lmList = findHands.findPositions(frame, draw=False)
+            if lmList:
+                print(lmList)
+        
+        if right_hand_coords:
+            # Perform action for right hand
+            cv2.circle(frame, right_hand_coords, 20, (255, 0, 0), 2)  # Blue circle for right hand
+
+'''
 import mediapipe as mp
 import sys
 import cv2
@@ -16,7 +86,6 @@ print(np.__version__)
 import time
 # import tensorflow as tf
 # tf.config.experimental.set_memory_growth(tf.config.list_physical_devices('GPU')[0], True)
-
 # class handDetector():
 class mpHands:
     import mediapipe as mp
@@ -86,7 +155,7 @@ def main():
     import time
     width = 1280
     height = 720
-    cam = cv2.VideoCapture(1)
+    cam = cv2.VideoCapture(0)
     cam.set(cv2.CAP_PROP_FRAME_WIDTH, width)
     cam.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
     cam.set(cv2.CAP_PROP_FPS, 30)
@@ -94,41 +163,46 @@ def main():
 
     findHands = mpHands(2)
     pTime = 0
-
+    keyPoints=[4,8,12,16,20]
     while True:
         ret, frame = cam.read()
         frame = cv2.resize(frame, (width, height))
         frame = cv2.flip(frame, 1)
-        frame, handsLM, handsType = findHands.Marks(frame, draw=True)
-        all_lmLists = findHands.findPositions(frame, draw=False)  # Get landmarks without drawing here
-
-        # Loop over each hand's landmarks along with its type
-        for lmList, handType in zip(all_lmLists, handsType):
-            if handType == 'Right': ## a list of id,x,y
+        frame, handsLM, handsType = findHands.Marks(frame, draw=False)
+        all_lmLists = findHands.findPositions(frame, draw=False)  # Get landmarks without drawing here [[0,322,739,...]]
+        for hand,handType in zip(handsLM,handsType):## gives left and/or rignt and tuple
+            # print(hand,handType)## a list of tuples of x and y
+            if handType == 'Left':
+                print(hand[8])
+                cv2.circle(frame,hand[8],30,(255,0,0),3)
+                for ind in keyPoints:
+                    cv2.circle(frame,hand[ind],25,(255,0,255),3)
+         
+         
+           
+        # Loop over each hand's landmarks along with its type, uses handsType from .Marks() and all_lmLists from .findPositions()
+        for lmList, handType in zip(all_lmLists, handsType):   ## all_lmLists contains [[0,22,234],...]
+            # print(lmList,handType) ## this return l list of lsits of 3 digits == id, x and y
+            if handType == 'Right':
                 # Draw blue circles for right hand landmarks
+                # for id in keyPoints:
                 for id, cx, cy in lmList:
+                
+                    # print(id,cx,cy)     
                     cv2.circle(frame, (cx, cy), 15, (255, 0, 0), cv2.FILLED)
-                    if id==8:
-                        cv2.putText(frame,'Right',(cx-5,int(cy-20)),cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,255,3))
-                    # if id==8:
-                    #     print(f'id: {id} cx: {cx} cy: {cy}')
             elif handType == 'Left':
                 # Draw green circles for left hand landmarks
                 for id, cx, cy in lmList:
                     cv2.circle(frame, (cx, cy), 15, (0, 255, 0), cv2.FILLED)
-                    if id==8:
-                        cv2.putText(frame,'Left',(cx-5,int(cy-20)),cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,255,3))
-            
         
-        
-        
-        # right_hand_coords, left_hand_coords = findHands.labelHands(frame, handsLM, handsType)
-        # if handsLM:  # Only proceed if any hands are detected
+        # right_hand_coords, left_hand_coords = findHands.labelHands(frame, handsLM, handsType)## .labelHands() uses .Marks()
+        # if handsLM:  # Only proceed if any hand landmarks  are detected
         #     lmList = findHands.findPositions(frame, draw=False)
         #     if lmList:
-        #         print(lmList)
+        #         print(lmList)   ## [[[0, 13, 574], [1, 27, 482], [2, 84, 399]...
         
         # if right_hand_coords:
+        #     print('Right', right_hand_coords)
         #     # Perform action for right hand
         #     cv2.circle(frame, right_hand_coords, 20, (255, 0, 0), 2)  # Blue circle for right hand
 
@@ -150,13 +224,7 @@ def main():
 if __name__=='__main__':
     main()
     
-    
-'''
-hands=mp.solutions.hands.Hands(static_image_mode=False, max_num_hands=2, min_detection_confidence=0.5, 
-    min_tracking_confidence=0.5)
-    the hands after mp.solutions references very specific methods.
-     THe .Hands is another method inside of mp.slolutons.hands.
-'''
+
 # mpDraw = mp.solutions.drawing_utils     # this is to annotate the frame with the data, if want to analyze the frame TO DRAW HANDS  use the mp.solutions.hands.Hands(   , , )   
     
     

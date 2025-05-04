@@ -41,7 +41,7 @@ import socket
 
 # # Setup socket connection
 # HOST = '0.0.0.0'  # Replace with Raspberry Pi Pico's IP
-HOST = '192.168.1.253'
+HOST = '192.168.1.31'
 
 
 PORT = 12345
@@ -223,9 +223,13 @@ cap = cv2.VideoCapture(1)
 cap.set(3, wCam)
 cap.set(4, hCam)
 pTime=0
-folderPath = "/Users/judsonbelmont/Documents/SharedFolders/Mediapipe/Mediapipe_GPU_M1/Images/FingerCount"
-
-myList=['a6.png','a1.png', 'a2.png', 'a3.png', 'a4.png', 'a5.png','a7.png','a8.png','a9.png','a10.png','a6.png']
+# folderPath = "/Users/judsonbelmont/Documents/SharedFolders/Mediapipe/Mediapipe_GPU_M1/Images/FingerCount"
+folderPath = "/Users/judsonbelmont/Documents/SharedFolders/Mediapipe/Mediapipe_GPU_M1/FingerControl/NFL_images"
+myList =[]
+# myList=['green.png','a1.png','a2.png','a3.png','a4.png','a5.png','num_6.png','num_7.png','num_8.png','num_9.png','num_10.png']
+# myList=['tennessee_titans_1.png','Cleveland_Browns_2.png', 'NY_Giants.jpg', 'NE_Patriot_4.png', 'jacksonville_jaguars_5.jpg', 'LasVegas_Raiders_6.png','NY_Jets_7.png',   ets_23.png', 'Philadelphia_Eagles_24.png', 'Pittsburgh_Steelers_25.png', 'San_Francisco_49ers_26.png', 'Seattle_Seahawks_27.png', 'Tampa_Bay_Buccaneers_28.png']
+myList=['NFL_draft.jpg','tennessee_titans_1.png','Cleveland_Browns_2.png', 'NY_Giants.jpg', 'NE_Patriot_4.png', 'jacksonville_jaguars_5.jpg', 'LasVegas_Raiders_6.png','NY_Jets_7.png','Carolina_Panthers_8.jpg','NewOrleans_Saints_11.jpg','ChicagoBears_10.jpg']
+# myList=['tennessee_titans_1.png','Cleveland_Browns_2.png', 'NY_Giants.jpg', 'NE_Patriot_4.png', 'jacksonville_jaguars_5.jpg', 'LasVegas_Raiders_6.png','NY_Jets_7.png']
 print(myList)
 overlayList = []
 for imPath in myList:
@@ -278,7 +282,140 @@ client_socket.close()
 cap.release()
 cv2.destroyAllWindows()
 
-#####~~~~~~below is the socket server pico side with the servo
+#####~~~~~~below is the socket server pico side with the servo WORKS PRIMO!
+# I also have this in McWhorter_WiFi_Pico/ HandControl/ServoServerHand.py
+# # This version gradually moves the servo to the new angle, reducing jitter from abrupt changes.
+# It also updates only when the angle changes, minimizing unnecessary updates. 
+
+## latest update
+# Explanation
+# Debounce Logic:
+# Added a variable last_finger_count that stores the last received finger count. The code only processes the servo movement when the new finger count differs from the previous one.
+# Initial Servo Position:
+# The servo is initialized to 90 degrees. This gives  a known starting point.
+# Data Processing:
+# The server decodes the incoming data into messages, splits on newline characters, and then checks if the message is a valid digit. If so, it converts the digit to an angle (using min(max(finger_count * 18, 10), 180)) and only moves the servo if the target angle is different from the current angle.
+# Settling Delay:
+# A short delay (sleep(0.1)) after sending the servo command helps ensure the servo has time to settle before any new command is processed.
+
+# import network         ## this is for ht pico wifi connection with servo on pin 0
+# # import secrets
+# from time import sleep
+# import socket
+# import machine
+
+# # Initialize servo on GPIO 0
+# servo = machine.PWM(machine.Pin(0))
+# servo.freq(50)
+
+# def set_servo_angle(angle):
+#     """Convert an angle (0-180) to a duty cycle for the servo."""
+#     duty = int(((angle / 180) * 10 + 2) / 100 * 65535)
+#     servo.duty_u16(duty)
+#     print(f"Servo angle set to {angle} degrees (duty cycle: {duty})")
+
+# def smooth_move_servo(current_angle, target_angle, step=5, delay=0.2):
+#     if current_angle == target_angle:
+#         return current_angle
+#     step = step if target_angle > current_angle else -step
+#     for angle in range(current_angle, target_angle, step):
+#         set_servo_angle(angle)
+#         sleep(delay)
+#     set_servo_angle(target_angle)
+#     return target_angle
+
+# class WiFi:
+#     def __init__(self):
+#         # self.ssid = 'SpectrumSetup-41'
+#         # self.password = 'leastdinner914'
+#         self.ssid = 'NETGEAR48'
+#         self.password = 'waterypanda901'
+#         # self.ssid = secrets.ssid
+#         # self.password = secrets.password
+
+#     def ConnectWiFi(self):
+#         wlan = network.WLAN(network.STA_IF)
+#         wlan.active(True)
+#         wlan.connect(self.ssid, self.password)
+#         sleep(1)
+#         while not wlan.isconnected():
+#             print('Waiting for connection...')
+#             sleep(1)
+#         ip = wlan.ifconfig()[0]
+#         print(f'Pico Connected on IP {ip}')
+#         return ip
+
+#     def open_socket(self):
+#         address = socket.getaddrinfo('0.0.0.0', 12345)[0][-1]
+#         server_socket = socket.socket()
+#         server_socket.bind(address)
+#         server_socket.listen(5)
+#         print('Listening on', address)
+#         return server_socket
+
+# def main():
+#     myWifi = WiFi()
+#     ip = myWifi.ConnectWiFi()
+#     server_socket = myWifi.open_socket()
+
+#     # Initialize servo at 90 degrees for a known start position
+#     current_angle = 10
+#     set_servo_angle(10)
+#     sleep(1)
+
+#     last_finger_count = None
+
+#     while True:
+#         print("Waiting for connection...")
+#         conn, addr = server_socket.accept()
+#         print(f"Connected by {addr}")
+#         try:
+#             buffer = ""
+#             while True:
+#                 data = conn.recv(1024)
+#                 if not data:
+#                     break
+#                 buffer += data.decode()
+#                 while '\n' in buffer:
+#                     message, buffer = buffer.split('\n', 1)
+#                     message = message.strip()
+#                     if message.isdigit():
+#                         finger_count = int(message)
+#                         # Only process if the finger count has changed
+#                         if finger_count != last_finger_count:
+#                             last_finger_count = finger_count
+#                             # Calculate the target angle using a clamped value
+#                             target_angle = min(max(finger_count * 18, 10), 180)
+#                             print(f"Received finger count: {finger_count}")
+#                             if target_angle != current_angle:
+#                                 current_angle = smooth_move_servo(current_angle, target_angle)
+#                                 conn.sendall(f"Servo set to {target_angle} degrees.\n".encode())
+#                                 sleep(0.1)  # Allow the servo to settle a bit
+#                     else:
+#                         print(f"Invalid data received: {message}")
+#         except Exception as e:
+#             print(f"Connection error: {e}")
+#         finally:
+#             conn.close()
+
+# if __name__ == '__main__':
+#     main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#####~~~~~~below is the socket server pico side with the servo 22Apr2025 not sure about the below version
 ## located in McWhoter WiFi Pico folder/repository. /Users/judsonbelmont/Documents/SharedFolders/Pico/MCWhorter_WiFi_Pico/HandControl/Finger_Servo_Control.py
 
 # import socket
