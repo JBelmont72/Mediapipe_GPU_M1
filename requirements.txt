@@ -25,6 +25,5 @@ six==1.17.0
 sounddevice==0.5.3
 
 imutils==0.5.4
-matplotlib==3.10.
 osascript==2020.12.3
 
