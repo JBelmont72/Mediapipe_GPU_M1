@@ -9,9 +9,10 @@ at 2:25:03 instead of using FACE_CONNECTIONS use  mp.solutions.face_mesh_connect
 import cv2
 import mediapipe as mp
 import time
-import tensorflow as tf
-print(tf.test.is_gpu_available())
-cap = cv2.VideoCapture("Images/Erica_Jon.mov")
+# import tensorflow as tf
+# print(tf.test.is_gpu_available())
+# cap = cv2.VideoCapture("Images/Erica_Jon.mov")
+cap = cv2.VideoCapture(1)
 pTime = 0
 
 mpDraw = mp.solutions.drawing_utils

@@ -81,7 +81,7 @@ class mpFaceDetect():
 
 
 def main():
-    cap=cv2.VideoCapture(1)
+    cap=cv2.VideoCapture(0)
     # cap=cv2.VideoCapture('Images/Erica.mov')
     # cap=cv2.VideoCapture('Images/MiriamTap.mov')
     width =1280

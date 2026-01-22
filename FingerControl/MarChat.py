@@ -41,7 +41,8 @@ import socket
 
 # # Setup socket connection
 # HOST = '0.0.0.0'  # Replace with Raspberry Pi Pico's IP
-HOST = '192.168.1.31'
+# HOST = '192.168.1.31'
+HOST = '10.0.0.31'
 
 
 PORT = 12345
@@ -220,6 +221,10 @@ def count_fingers(img):
 ################# 2. Capturing Video and Using the Function
 wCam, hCam = 1280, 760
 cap = cv2.VideoCapture(1)
+# cap = cv2.VideoCapture("http://10.0.0.30/stream")
+
+if not cap.isOpened():
+    raise RuntimeError("Failed to open stream")
 cap.set(3, wCam)
 cap.set(4, hCam)
 pTime=0
