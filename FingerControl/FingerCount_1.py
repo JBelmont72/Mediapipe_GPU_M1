@@ -6,7 +6,7 @@ myObject=htm()
 frame,myHands,handsType=myObject.Marks(frame,draw=False)
 all_lmLists=myObject.findPostions(frame,draw=False)
 right_hand_coords, left_hand_coords   =myObject.labelHands(self, frame, myHands, handsType, draw=True)
-
+/Users/judsonbelmont/Documents/GitHub/Mediapipe_GPU_M1/Images/FingerCount
 '''
 import cv2
 import time
@@ -15,10 +15,13 @@ import handTrackModule as ht
 
 
 wCam, hCam = 1280, 760
-cap = cv2.VideoCapture(1)
+# cap = cv2.VideoCapture(1)
+ESP32_STREAM_URL = "http://10.0.0.20/stream"
+cap= cv2.VideoCapture(ESP32_STREAM_URL)
 cap.set(3, wCam)
 cap.set(4, hCam)
-folderPath = "/Users/judsonbelmont/Documents/SharedFolders/Mediapipe/Mediapipe_GPU_M1/Images/FingerCount"
+folderPath = "/Users/judsonbelmont/Documents/GitHub/Mediapipe_GPU_M1/Images/FingerCount"
+# folderPath = "/Users/judsonbelmont/Documents/SharedFolders/Mediapipe/Mediapipe_GPU_M1/Images/FingerCount"
 # folderPath = "/Images/FingerImages"
 # myList = os.listdir(folderPath)
 # print(myList)
@@ -43,9 +46,21 @@ print(myList)
 # print("Files and directories in '", path, "' :")  
 # # print the list 
 # print(dir_list)
-
+# Python
+image = cv2.imread('/Users/judsonbelmont/Documents/GitHub/Mediapipe_GPU_M1/Images/FingerCount')
+if image is None:
+    print(f"Failed to load image: {'/Users/judsonbelmont/Documents/GitHub/Mediapipe_GPU_M1/FingerControl/Images/FingerCount'}")
+else:
+    image = cv2.resize(image, (360, 480))
+# ls -l /Users/judsonbelmont/Documents/GitHub/Mediapipe_GPU_M1/FingerControl/Images/FingerCount/a6.png
+image = cv2.imread(f'{folderPath}/{myList[0]}')
+if image is None:
+    print(f"Failed to load image: {folderPath}/{myList[0]}")
+else:
+    image = cv2.resize(image, (360, 480))
 overlayList = []
 for imPath in myList:
+    # image = cv2.imread('/Users/judsonbelmont/Documents/GitHub/Mediapipe_GPU_M1/Images/FingerCount')
     image = cv2.imread(f'{folderPath}/{imPath}')
     image=cv2.resize(image,(360,480))
     # print(f'{folderPath}/{imPath}')
